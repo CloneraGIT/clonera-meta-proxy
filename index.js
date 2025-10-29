@@ -5,96 +5,93 @@ import fetch from "node-fetch";
 const app = express();
 app.use(express.json({ limit: "2mb" }));
 
-// === CONFIG ===
-const PRIVATE_KEY = `-----BEGIN PRIVATE KEY-----
-MIIEogIBAAKCAQEArZnV0b6f89bsCkFScnKCPIdUBjYBTE4VqbFbBlB4UQgOhcTT
-oYow59BCJCu9pH+83C6aiyZKz6YF6BJ0+kT5t42H1ov4oveYlIfYsQzYfQgD6gEu
-kxtbpLQkYpVgDHbJ+cVRl0QM+8aWhWtk+67bZDWn+p3iEwBnKqCVhwuSZSjE78t0
-CwTgy/FLWef4M3g5EPxvsjCbNI0G7BAvtTIOd6Obo16JqXxndQZrOtTa11DbYYax
-mTEtgGZKsCkO2b2YZ/RZyxXf47WQ9DEOMCzuwsd4mItpC194KcGY95KsaGTUmpgY
-OpBq7GsQFa+NKXf1BOvVoEnwHs1Qk43ixXnOdwIDAQABAoIBACEswLuwXgjPDZR4
-HzVXxKOkiN4W+/CFC4a+KdLvFc8GZyARGRBJxEbIeZtH8Jm6/3BkR4xH6Qv9gitz
-O3+IJuB433iUjxM1labsvvA2sDhUi8rwJuJd3AmBk2JzgUNggACHQKxTiNekf6dH
-eqjOJYbk6hDukwFmllCDF5ATGgrSix1IBjze5WwP8ipbhmvaDLIFSZEbchO8Hkxs
-281HGYz5hYz9kz9hTDy+4gIlLwu7x5axmrI49atjl1cmL6ubrH9xqId4A1J+3n5o
-GSueg67Ol9KfscBgXQCvNBgQZ3qbmBtPTtaklC/P7u6PQMse8zUkqW0WDk8Qroqf
-TzI5GsECgYEA0xptU9JXYGULcgpiVrsjxjBgBaZdozeZmgCgQFSM72qkgihGdYdb
-7DnKfZQb0kwsE4mdw5zbC4tfqciI+QciEe0DpzEvWRRcW2SFdI4CNPmGOr+bIZck
-mXJ6tY9s4Nz++04XptFN0nIAOgRgfTgm4LDByGAy4oJUo8aZc3LI+rkCgYEA0oWV
-pxyxDWH2z17G8YddWYeH0YJcGhma1aWg/Pz/kzwHeDFcl1fqcZ+TRtVtDRp/jSsz
-tuGGdPCAzvaOh8N+qSpw/ABWpf39iFxvBbrdozFK6uozUS6wK/XnNazmcCdWv7q6
-8QDcVYGcKjuJIJLiu8cLQZ/tSN3SF0UwvSFMuq8CgYAWKiMqdt5Ht7RA8AgtNQ7n
-gzLBxRr1xSOygLhSqM33YUoOhG4JbwHexp6VGtTk+qxyDLPs0u5IwwRzTiPbib0x
-BqKojkh7YODlk6NTfomKyFwolO+T0ku8dMGfiISVA38eIa/oCvfRzbhqXwVGgHvM
-gaKHCFqvX6HFZFe+QGILuQKBgGs6eXhuB8yeOl1zk/eQED865jYTpR/yLMhnnbFe
-mDsBV3ikA9pegF6xfg2VRf9noNJhz+x1wMuteJ5yPTTvoYM+x9/DuF7CGTIsiqwr
-exrVT6iJ8+uE0V0C2mqfj5xOnUP5M6Dv5Ep1QvrL6lO6HVyxzIz3jaAQxCLwLhwX
-awKnAoGARRldRtE3yzAhPs8SuSRmCeHAbjzPOH6kEa8VZTM/BKfOJLcrzWvljgfh
-3JBnlCEzLACxvOJmAloL/lpubbnl2rgHUZZ7CMiBJvoZCpBzaKrUVqj6lCoHsOFL
-C9v3zDBTLhYDIbhuQkxUALlqQf7YvJSC8bkUw1Qeg/rMznHpWVs=
------END PRIVATE KEY-----`;
+// --- CONFIG ---
+const PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAsGZd7eG9SNbzBX6kUYrbai4QI0rSWKAYyayBHQ3haJg5kbGj
+wVbsZsshR/pm8Qs+krLE5IH+hdrdwB0wwoSvHkuJadBICBoOfHi3aurQy8YGW3QA
+Ln2OvCEKP1CtILsOlLrwnOrNitCEw5rnDJYd5Eu0H4NteOaum/5XpTa2O6bhqsV6
+9FxGdaBX+BHH0qULfTh6ndHazpEhBshSF8AfQtYbQIIZy8QBDh9et3XE2B3AtZeN
+kbXN6ebEuEak3miXPb9cL5+Q7gLNb4N+GXqyXAhZSRRzYOfRTS803BEPXLD6badL
+RO5Q6QmuwImhH1e+HS2k6YGYep5QprkJeXMUfQIDAQABAoIBAQCVaqA1VvjWMfw3
+s0XMLCoejlXtDvuNRk64xP24doFv70EUP7vNkKs9huHx7hA0LKob6IEObW4CQ5mB
+mTgsC+epaaJDlsDs2+VZWYdDcRLbCClqXZ+pwYCdqf7cEqITD18SbCZTRDBGXMmY
+RiVfa+h18Anqh5C6z+snBxGGSAmkDBXw00LoZVYgZXhiSMBFvj3uqa2gXd+33DBx
+DyP241POfNoallYCSg6PZnEIu1O8rMRXyJarUK3IYmcQcZM2QCo7+pxFmQGTuiyC
+d8wl1tK7YtrPwre6u8lovK16/aWXshYnstyhz6TEo82M3Gg7UizuX6WPePi0sP15
+B3+qMA+hAoGBAObAFRZ5QcVOXo5fIXBB2uE60Zw1dZ/iQLy1h04WPZ7dTmhjb+qW
+L6rkYmSwtckS2TtHGXKvFKsAzz9lr0zBUjW6VevzhBGAuLGmTyI9t9acnJ05EVDs
+iMnmgjOYtw4D75j0sUh072Fo06MHK5d0Io8rDd3qM66rJH62nEi7MfUbAoGBAMOz
+yWzzCpLV5DkzG/ANDUsSS5XK/u11WmzjpaLpriIp6HdSKsoLx4o/xu+Ndnjf3Xl+
+hK3ZQvsGPIblWSmqjmQv+YEOmBbG2SQtFzhEhfuAmnMKFXkEYo0w25viA30ZCvSE
++78ONuiede8qeNXfU4uLZKNmUPAOXtdjhwBWu+5HAoGAN2w5ZG15c6eQJIgK4wie
+Ruy2vdtFRkK0o97CAeproIWtOHtxvRmXl2dFjsO21fXWAVvha99LiosmPCbzRO9G
+DKuVyZdyyDVvpxO3/BRw3HY/U7AKTbKSZFQeP8BVb2NYoBddoXacrHveIVEukjEN
+v+9qZDvFcBWhLWI1BW8Y37MCgYAwU92SAhLCX/+UAIMNrKtztnjj7NU3XpuN+EmX
+CY3u8dpuXOQkMPR9t3IxBgYTo3TV4+Bv7g8UXl3kEg8KswumwhIjRK9aMJC+1kO9
+qW5MxV1eu0bCM8sCguY4gH/MDLsf1xcz/xagK0GEZkCg0B2ZgDrB/ypNnb7eAb38
+325ZUQKBgQDlQ5bJ2KvwUaQHnyMZOfc6KABBZ+OtHEivNdWsk63VrOF45F93DNCq
+cv5KljwngtH6630vCiFe5Lb3FVcGuLGN8RaDQn2PYwmFfc28mxUQE9vCLryECH+A
+YFkQhsMcqx9mlV6gvbsOXlZEELjuU7EzAzzCnGSyxofq4/VDTSNfBA==
+-----END RSA PRIVATE KEY-----`;
 
-const N8N_WEBHOOK = "https://cloneratriage.app.n8n.cloud/webhook/lookup-vehicle";
+const N8N_WEBHOOK = "https://cloneratriage.app.n8n.cloud/webhook/meta-flow";
 
-// === HELPERS ===
-function decryptAESKey(encryptedKeyB64) {
-  const privateKey = crypto.createPrivateKey(PRIVATE_KEY);
-  const encryptedKey = Buffer.from(encryptedKeyB64, "base64");
+// --- HELPERS ---
+function decryptAESKey(encryptedAESKey64) {
+  const encryptedAESKey = Buffer.from(encryptedAESKey64, "base64");
   return crypto.privateDecrypt(
-    { key: privateKey, padding: crypto.constants.RSA_PKCS1_OAEP_PADDING },
-    encryptedKey
+    { key: PRIVATE_KEY, padding: crypto.constants.RSA_PKCS1_OAEP_PADDING },
+    encryptedAESKey
   );
 }
 
-function decryptData(aesKey, ivB64, encryptedDataB64) {
-  const iv = Buffer.from(ivB64, "base64");
-  const cipherData = Buffer.from(encryptedDataB64, "base64");
+function decryptData(aesKey, iv64, encryptedData64) {
+  const iv = Buffer.from(iv64, "base64");
+  const data = Buffer.from(encryptedData64, "base64");
   const decipher = crypto.createDecipheriv("aes-128-cbc", aesKey, iv);
-  let decrypted = decipher.update(cipherData);
+  let decrypted = decipher.update(data);
   decrypted = Buffer.concat([decrypted, decipher.final()]);
-  return JSON.parse(decrypted.toString("utf8").trim());
+  return JSON.parse(decrypted.toString("utf8"));
 }
 
-function encryptData(aesKey, ivB64, data) {
-  const iv = Buffer.from(ivB64, "base64");
-  const json = JSON.stringify(data);
-  const pad = 16 - (json.length % 16);
-  const padded = Buffer.concat([Buffer.from(json), Buffer.alloc(pad, 0)]);
-  const cipher = crypto.createCipheriv("aes-128-cbc", aesKey, iv);
-  let encrypted = cipher.update(padded);
-  encrypted = Buffer.concat([encrypted, cipher.final()]);
-  return encrypted.toString("base64");
-}
-
-// === META FLOW HANDLER ===
+// --- ROUTE ---
 app.post("/meta-flow", async (req, res) => {
   try {
-    const { encrypted_aes_key, encrypted_flow_data, initial_vector } = req.body;
+    const { encrypted_flow_data, encrypted_aes_key, initial_vector } = req.body;
 
-    // 1. Decrypt AES key and data
+    // Step 1. Decrypt Meta payload
     const aesKey = decryptAESKey(encrypted_aes_key);
-    const data = decryptData(aesKey, initial_vector, encrypted_flow_data);
+    const payload = decryptData(aesKey, initial_vector, encrypted_flow_data);
 
-    // 2. Forward decrypted JSON to n8n
-    const forward = await fetch(N8N_WEBHOOK, {
+    console.log("Decrypted Meta Payload:", payload);
+
+    // Step 2. Forward decrypted JSON to n8n
+    const n8nResponse = await fetch(N8N_WEBHOOK, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
+      body: JSON.stringify(payload),
     });
-    const responseData = await forward.json();
 
-    // 3. Encrypt response again for Meta
-    const encryptedResponse = encryptData(aesKey, initial_vector, responseData);
+    const result = await n8nResponse.json();
 
-    res.status(200).json({
-      encrypted_flow_data: encryptedResponse,
-      encrypted_aes_key,
-      initial_vector
-    });
+    // Step 3. Encrypt response back for Meta
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv("aes-128-cbc", aesKey, iv);
+    let encrypted = cipher.update(JSON.stringify(result));
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+
+    const encryptedResponse = {
+      encrypted_flow_data: encrypted.toString("base64"),
+      encrypted_aes_key, // Meta expects same key
+      initial_vector: iv.toString("base64"),
+    };
+
+    return res.status(200).json(encryptedResponse);
   } catch (err) {
-    console.error(err);
-    res.status(421).send("Decryption failed");
+    console.error("Decryption/Forwarding error:", err);
+    return res.status(421).json({ error: "Decryption failed" });
   }
 });
 
-app.listen(3000, () => console.log("Clonera Meta proxy running on port 3000"));
+// --- START ---
+app.listen(3000, () => console.log("Meta Proxy running"));
